@@ -66,10 +66,32 @@ fn play_pass(password: &str, shift: u32) -> String {
         .collect::<String>()
 }
 
-fn main() {
-    assert_eq!(play_pass("I LOVE YOU!!!", 0), "!!!uOy eVoL I"); // Capialization
-    assert_eq!(play_pass("I LOVE YOU 2012!!!", 0), "!!!7897 uOy eVoL I"); // Numbers
-    assert_eq!(play_pass("AAABBCCY", 1), "zDdCcBbB"); // Shifting
-    assert_eq!(play_pass("AAABBCCY", 2), "aEeDdCcC"); // Circular shifting
-    assert_eq!(play_pass("I LOVE YOU 2012Z!!!", 1), "!!!a7897 vPz fWpM J"); // Everything
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn capitalization() {
+        assert_eq!(play_pass("I LOVE YOU!!!", 0), "!!!uOy eVoL I"); // Capialization
+    }
+
+    #[test]
+    fn number_complements() {
+        assert_eq!(play_pass("I LOVE YOU 2012!!!", 0), "!!!7897 uOy eVoL I"); // Numbers
+    }
+
+    #[test]
+    fn ascii_shifting() {
+        assert_eq!(play_pass("AAABBCCY", 1), "zDdCcBbB"); // Shifting
+    }
+
+    #[test]
+    fn circular_shifting() {
+        assert_eq!(play_pass("AAABBCCY", 2), "aEeDdCcC"); // Circular shifting
+    }
+
+    #[test]
+    fn all_at_once() {
+        assert_eq!(play_pass("I LOVE YOU 2012Z!!!", 1), "!!!a7897 vPz fWpM J"); // Everything
+    }
 }
