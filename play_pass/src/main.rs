@@ -10,6 +10,7 @@ impl PasswordShift for char {
         self.shift_letter(shift).digit_complement().shift_case(iter)
     }
 
+    // Shift the ASCII letter by the 'shift' amount (nb: A shifted 1 place becomes B)
     fn shift_letter(&self, shift: u32) -> Self {
         // Shift circularly while keeping the char_digit between the ASCII range of 10~35
         // This is for situations when the provided shift amount is bigger than the total alphabet
@@ -33,10 +34,10 @@ impl PasswordShift for char {
         }
     }
 
+    // Returns the complement to 9 for a given digit (as a char)
+    // 0123456789 becomes 9876543210
+    // To achieve this we just subtract the char.to_digit from 9 and convert back to a char
     fn digit_complement(&self) -> Self {
-        // Returns the complement to 9 for a given digit (as a char)
-        // 0123456789 becomes 9876543210
-        // To achieve this we just subtract the char.to_digit from 9 and convert back to a char
         match self.to_digit(10) {
             Some(i) => match std::char::from_digit(9 - i, 10) {
                 Some(c) => c,
@@ -46,6 +47,8 @@ impl PasswordShift for char {
         }
     }
 
+    // Shift the case of the current ASCII char based on it's place in the string.
+    // Odd places become lowercase, even places become uppercase
     fn shift_case(&self, iter: usize) -> Self {
         match iter % 2 {
             0 => self.to_ascii_uppercase(),
