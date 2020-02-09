@@ -15,9 +15,7 @@ impl PasswordShift for char {
         // Shift circularly while keeping the char_digit between the ASCII range of 10~35
         // This is for situations when the provided shift amount is bigger than the total alphabet
         // size, we need to loop back to the beginning of the alphabet
-        let shift_ascii_circular = |char_digit, shift| {
-            (char_digit + shift - 10) % 26 + 10
-        };
+        let shift_ascii_circular = |char_digit, shift| (char_digit + shift - 10) % 26 + 10;
 
         // Exit early if this char is a number (0-9)
         if self.is_numeric() {
