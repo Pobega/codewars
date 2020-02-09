@@ -60,11 +60,8 @@ impl PasswordShift for char {
 
 fn play_pass(password: &str, shift: u32) -> String {
     password
-        .chars()
-        .enumerate()
+        .char_indices()
         .map(|(iter, chara)| chara.password_shift(iter, shift))
-        .collect::<String>()
-        .chars()
         .rev()
         .collect::<String>()
 }
