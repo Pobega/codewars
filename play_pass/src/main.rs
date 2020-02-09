@@ -21,28 +21,21 @@ impl PasswordShift for char {
         if self.is_numeric() {
             return *self;
         }
-        match self.to_digit(36) {
-            Some(char_as_digit) => {
-                match std::char::from_digit(shift_ascii_circular(char_as_digit, shift), 36) {
-                    Some(c) => c,
-                    None => *self,
-                }
-            }
-            None => *self,
-        }
+        self.to_digit(36)
+            .map(|char_as_digit| {
+                std::char::from_digit(shift_ascii_circular(char_as_digit, shift), 36)
+                    .unwrap_or(*self)
+            })
+            .unwrap_or(*self)
     }
 
     // Returns the complement to 9 for a given digit (as a char)
     // 0123456789 becomes 9876543210
     // To achieve this we just subtract the char.to_digit from 9 and convert back to a char
     fn digit_complement(&self) -> Self {
-        match self.to_digit(10) {
-            Some(i) => match std::char::from_digit(9 - i, 10) {
-                Some(c) => c,
-                None => *self,
-            },
-            None => *self,
-        }
+        self.to_digit(10)
+            .map(|i| std::char::from_digit(9 - i, 10).unwrap_or(*self))
+            .unwrap_or(*self)
     }
 
     // Shift the case of the current ASCII char based on it's place in the string.
