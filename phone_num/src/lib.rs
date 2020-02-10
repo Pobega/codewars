@@ -1,17 +1,6 @@
 fn create_phone_number(numbers: &[u8]) -> String {
-    format!(
-        "({}{}{}) {}{}{}-{}{}{}{}",
-        numbers[0],
-        numbers[1],
-        numbers[2],
-        numbers[3],
-        numbers[4],
-        numbers[5],
-        numbers[6],
-        numbers[7],
-        numbers[8],
-        numbers[9]
-    )
+    let numbers: String = numbers.iter().map(|s| std::char::from_digit(*s as u32, 10).unwrap()).collect();
+    format!("({}) {}-{}", &numbers[..3], &numbers[3..6], &numbers[6..],)
 }
 
 #[cfg(test)]
