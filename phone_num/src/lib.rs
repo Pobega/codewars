@@ -1,5 +1,9 @@
 fn create_phone_number(numbers: &[u8]) -> String {
-    let numbers: String = numbers.iter().map(|s| std::char::from_digit(*s as u32, 10).unwrap()).collect();
+    let numbers = numbers
+        .into_iter()
+        .map(|s| s.to_string())
+        .collect::<Vec<String>>()
+        .join("");
     format!("({}) {}-{}", &numbers[..3], &numbers[3..6], &numbers[6..],)
 }
 
