@@ -1,4 +1,4 @@
-fn create_phone_number(numbers: &[u8]) -> String {
+pub fn create_phone_number(numbers: &[u8]) -> String {
     let numbers = numbers
         .into_iter()
         .map(|s| s.to_string())
