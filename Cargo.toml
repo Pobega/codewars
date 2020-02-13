@@ -1,7 +1,6 @@
 [workspace]
 
 members = [
-  "molecule_to_atoms",
   "phone_num",
   "play_pass",
   "vowel_count",

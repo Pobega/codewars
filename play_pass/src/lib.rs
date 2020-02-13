@@ -49,7 +49,7 @@ impl PasswordShift for char {
     }
 }
 
-fn play_pass(password: &str, shift: u32) -> String {
+pub fn play_pass(password: &str, shift: u32) -> String {
     password
         .char_indices()
         .map(|(iter, chara)| chara.password_shift(iter, shift))
