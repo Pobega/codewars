@@ -1,6 +1,6 @@
 pub fn create_phone_number(numbers: &[u8]) -> String {
     let numbers = numbers
-        .into_iter()
+        .iter()
         .map(|s| s.to_string())
         .collect::<Vec<String>>()
         .join("");
