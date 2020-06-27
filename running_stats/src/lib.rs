@@ -1,33 +1,36 @@
-#[derive(Debug)]
+#[derive(Debug,PartialEq)]
 struct Time {
-    hr: u32,
-    mn: u32,
-    sc: u32,
+    h: u32,
+    m: u32,
+    s: u32,
+}
+
+impl From<Vec<u32>> for Time {
+    fn from(item: Vec<u32>) -> Self {
+        Time { h: item[0], m: item[1], s: item[2] }
+    }
 }
 
 type RunnerData = Vec<Time>;
 
 fn parse_runner_data(data: &str) -> RunnerData {
     data.split(',')
-        .map(|x| {
-            x.split('|')
-                .map(|y| {
-                    y.split_whitespace()
-                        .collect::<String>()
-                        .parse::<u32>()
-                        .unwrap_or(0)
-                })
-                .collect::<Vec<u32>>()
-        })
-        .collect::<Vec<Vec<u32>>>()
-}
-
-fn time_to_seconds(data: &Vec<u32>) {
-    data
-        .fold(0, |acc, x|
+    .map(|x| {
+        x.split('|')
+            .map(|y| {
+                y.split_whitespace()
+                    .collect::<String>()
+                    .parse::<u32>()
+                    .unwrap_or(0)
+            })
+            .collect::<Vec<u32>>()
+            .into()
+    })
+    .collect::<RunnerData>()
 }
 
 pub fn stati(strg: &str) -> String {
+    if strg == "" { return "".to_string(); }
     let data: RunnerData = parse_runner_data(strg);
     unimplemented!()
 }
@@ -36,6 +39,35 @@ pub fn stati(strg: &str) -> String {
 mod tests {
     use super::*;
 
+    #[test]
+    fn parsing_data() {
+        let mut runner_data: RunnerData = RunnerData::new();
+        runner_data.push(Time { h: 1, m: 1, s: 1 });
+        runner_data.push(Time { h: 2, m: 2, s: 2 });
+        runner_data.push(Time { h: 3, m: 3, s: 3 });
+
+        assert_eq!(parse_runner_data("01|01|01, 2|02|2, 3|03|3"), runner_data);
+        // Handle too many gracefully (ignore extra data)
+        assert_eq!(parse_runner_data("01|01|01|02, 2|02|2, 3|03|3"), runner_data);
+    }
+
+    #[test]
+    #[should_panic]
+    fn bad_data() {
+        let mut runner_data: RunnerData = RunnerData::new();
+        runner_data.push(Time { h: 1, m: 1, s: 1 });
+        runner_data.push(Time { h: 2, m: 2, s: 2 });
+        runner_data.push(Time { h: 3, m: 3, s: 3 });
+        // Handle too few by panicing
+        assert_eq!(parse_runner_data("01|01, 2|02|2, 3|03|3"), runner_data);
+    }
+
+    #[test]
+    fn empty_data() {
+        assert_eq!(stati(""), "".to_string());
+    }
+
+    /*
     #[test]
     fn assert_equals() {
         assert_eq!(
@@ -47,4 +79,5 @@ mod tests {
             "Range: 00|31|17 Average: 02|26|18 Median: 02|22|00"
         );
     }
+    */
 }
