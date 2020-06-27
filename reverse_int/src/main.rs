@@ -28,6 +28,7 @@ mod tests {
     #[test]
     fn simple_case() {
         assert_eq!(reverse(123), 321);
+        assert_eq!(reverse(0), 0);
         assert_eq!(reverse(51423), 32415);
     }
 
