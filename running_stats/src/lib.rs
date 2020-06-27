@@ -15,6 +15,17 @@ impl From<Vec<u32>> for Time {
     }
 }
 
+impl From<u32> for Time {
+    fn from(item: u32) -> Self {
+        Time {
+            h: item / 3600,
+            m: item % 3600 / 60,
+            s: item % 3600 % 60 / 60,
+        }
+    }
+}
+
+type Seconds = u32;
 type RunnerData = Vec<Time>;
 
 fn parse_runner_data(data: &str) -> RunnerData {
