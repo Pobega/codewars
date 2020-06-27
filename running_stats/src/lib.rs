@@ -1,4 +1,4 @@
-#[derive(Debug,PartialEq)]
+#[derive(Debug, PartialEq)]
 struct Time {
     h: u32,
     m: u32,
@@ -7,7 +7,11 @@ struct Time {
 
 impl From<Vec<u32>> for Time {
     fn from(item: Vec<u32>) -> Self {
-        Time { h: item[0], m: item[1], s: item[2] }
+        Time {
+            h: item[0],
+            m: item[1],
+            s: item[2],
+        }
     }
 }
 
@@ -15,22 +19,24 @@ type RunnerData = Vec<Time>;
 
 fn parse_runner_data(data: &str) -> RunnerData {
     data.split(',')
-    .map(|x| {
-        x.split('|')
-            .map(|y| {
-                y.split_whitespace()
-                    .collect::<String>()
-                    .parse::<u32>()
-                    .unwrap_or(0)
-            })
-            .collect::<Vec<u32>>()
-            .into()
-    })
-    .collect::<RunnerData>()
+        .map(|x| {
+            x.split('|')
+                .map(|y| {
+                    y.split_whitespace()
+                        .collect::<String>()
+                        .parse::<u32>()
+                        .unwrap_or(0)
+                })
+                .collect::<Vec<u32>>()
+                .into()
+        })
+        .collect::<RunnerData>()
 }
 
 pub fn stati(strg: &str) -> String {
-    if strg == "" { return "".to_string(); }
+    if strg == "" {
+        return "".to_string();
+    }
     let data: RunnerData = parse_runner_data(strg);
     unimplemented!()
 }
@@ -48,7 +54,10 @@ mod tests {
 
         assert_eq!(parse_runner_data("01|01|01, 2|02|2, 3|03|3"), runner_data);
         // Handle too many gracefully (ignore extra data)
-        assert_eq!(parse_runner_data("01|01|01|02, 2|02|2, 3|03|3"), runner_data);
+        assert_eq!(
+            parse_runner_data("01|01|01|02, 2|02|2, 3|03|3"),
+            runner_data
+        );
     }
 
     #[test]
