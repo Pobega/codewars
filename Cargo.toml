@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+  "exes_and_ohs",
   "phone_num",
   "play_pass",
   "vowel_count",
