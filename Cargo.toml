@@ -4,6 +4,7 @@ members = [
   "exes_and_ohs",
   "phone_num",
   "play_pass",
-  "vowel_count",
   "reverse_int",
+  "running_stats",
+  "vowel_count",
 ]
