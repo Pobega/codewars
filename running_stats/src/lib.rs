@@ -44,6 +44,28 @@ fn parse_runner_data(data: &str) -> RunnerData {
         .collect::<RunnerData>()
 }
 
+fn mean(times: Vec<Seconds>) -> u32 {
+    let summation = times.iter().sum::<u32>();
+    let length = times.len() as u32;
+    summation / length
+}
+
+fn median(times: Vec<Seconds>) -> u32 {
+    let mut sorted_times = times;
+    let length = sorted_times.len() as u32;
+    sorted_times.sort();
+    match length % 2 {
+        1 => sorted_times[(length / 2) as usize],
+        _ => (sorted_times[(length / 2 - 1) as usize] + sorted_times[(length / 2) as usize]) / 2
+    }
+}
+
+fn range(times: Vec<Seconds>) -> u32 {
+    let mut sorted_times = times;
+    sorted_times.sort();
+    sorted_times.last().unwrap() - sorted_times.first().unwrap()
+}
+
 pub fn stati(strg: &str) -> String {
     if strg == "" {
         return "".to_string();
@@ -85,6 +107,29 @@ mod tests {
     #[test]
     fn empty_data() {
         assert_eq!(stati(""), "".to_string());
+    }
+
+    #[test]
+    fn test_mean() {
+        assert_eq!(mean(vec![1, 2, 3, 4, 5]), 3);
+        assert_eq!(mean(vec![10, 10]), 10);
+        assert_eq!(mean(vec![0]), 0);
+    }
+
+    #[test]
+    fn test_median() {
+        assert_eq!(median(vec![1, 2, 3, 4, 5]), 3);
+        assert_eq!(median(vec![10, 20, 30, 40, 50, 60]), 35);
+        assert_eq!(median(vec![10, 10]), 10);
+        assert_eq!(median(vec![0]), 0);
+    }
+
+    #[test]
+    fn test_range() {
+        assert_eq!(range(vec![1, 2, 3, 4, 5]), 4);
+        assert_eq!(range(vec![5, 2, 5, 9, 5]), 7);
+        assert_eq!(range(vec![10, 10]), 0);
+        assert_eq!(range(vec![0]), 0);
     }
 
     /*
